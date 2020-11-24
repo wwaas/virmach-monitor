@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virmach 闪购监控</title>
+</head>
+
+<script>
+</script>
+
+<body>
+    <h1 id=title>Virmach 闪购监控</h1>
+
+    <div class=vpsContainer>
+        <!-- vps 产品容器 -->
+        <ul>
+            <li>
+                时间:
+                <strong id="vpstime"></strong> -
+
+            </li>
+
+            <li><img alt="VIRTUALIZATION" src="3d.png" style="height:20px;width:20px"> 架构：<strong id="virt"></strong> – <span id="message"></span>
+            </li>
+
+            <li id="windows" style="display:none;"><img alt="WINDOWS" src="windows.png" style="height:20px;width:20px;"> 可用<strong>WINDOWS</strong>
+            </li>
+
+            <li><img alt="RAM" src="ram.png" style="height:20px;width:20px">内存： <strong id="ram"></strong>MB RAM
+            </li>
+            <li><img alt="CPU" src="cpu.png" style="height:20px;width:20px"> CPU:<strong id="cpu"></strong> vCORE
+            </li>
+
+            <li><img alt="HDD" src="disk.png" style="height:20px;width:20px"> 硬盘：<strong id="hdd"></strong>GB SSD (RAID 10)
+            </li>
+
+            <li><img alt="BANDWIDTH" src="network.png" style="height:20px;width:20px">月流量： <strong id="bw"></strong> GB/月
+            </li>
+
+            <li><img alt="LOCATION" src="server2.png" style="height:20px;width:20px">地点： <strong id="location"></strong>
+            </li>
+
+            <li><img alt="IPs" src="ip.png" style="height:20px;width:20px"> IP数：<strong id="ips"></strong> DEDICATED IPv4
+            </li>
+
+        </ul>
+        <p class="center">
+            <a id="buyurl" href="https://billing.virmach.com/aff.php&amp;pid=175&amp;billingcycle=annually">购买</a>
+        </p>
+    </div>
+
+</body>
+
+</html>
