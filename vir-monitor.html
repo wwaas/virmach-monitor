@@ -4,11 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Virmach 闪购监控</title>
+    <title id=title>VirMach 黑五闪购监控</title>
 </head>
 
 <body>
-    <h1 id=title>Virmach 闪购监控</h1>
+    <h1 id=title>VirMach 黑五闪购监控</h1>
+    <div class=setTime>
+        <span>设置刷新时间（秒）：
+        <input id="inputTime" type="text" ><button onclick=setRefreshTime()>确认</button></span>
+        <br>
+        <span>目前刷新时间（秒）：
+            <strong id="cRefreshTime"></strong>
+        </span>
+    </div>
 
     <div class=vpsContainer>
         <!-- vps 产品容器 -->
@@ -16,21 +24,21 @@
             <li>⌚️ 时间: <strong id="vpstime"></strong> -
             </li>
 
-            <li><img alt="VIRTUALIZATION" src="3d.png" style="height:20px;width:20px"> 架构：<strong id="virt"></strong>
+            <li>🧱 架构：<strong id="virt"></strong>
             </li>
 
             <li id="windows" style="display:none;"><img alt="WINDOWS" src="windows.png" style="height:20px;width:20px;"> 可用<strong>WINDOWS</strong>
             </li>
 
-            <li><img alt="RAM" src="ram.png" style="height:20px;width:20px"> 内存：<strong id="ram"></strong> MB RAM
+            <li>🔦 内存：<strong id="ram"></strong> MB RAM
             </li>
-            <li><img alt="CPU" src="cpu.png" style="height:20px;width:20px"> CPU：<strong id="cpu"></strong> vCORE
-            </li>
-
-            <li><img alt="HDD" src="disk.png" style="height:20px;width:20px"> 硬盘：<strong id="hdd"></strong> GB SSD (RAID 10)
+            <li>🧬 CPU：<strong id="cpu"></strong> vCORE
             </li>
 
-            <li><img alt="BANDWIDTH" src="network.png" style="height:20px;width:20px"> 流量：<strong id="bw"></strong> GB/月
+            <li>🗂 硬盘：<strong id="hdd"></strong> GB SSD (RAID 10)
+            </li>
+
+            <li>🛢 流量：<strong id="bw"></strong> GB/月
             </li>
 
             <li>🧭 地点：<strong id="location"></strong>
@@ -76,9 +84,56 @@
         insertPrice(vpsData);
         isWinAvailable(vpsData);
         isBuyOk(vpsData);
-
     }
 
+    function refreshData() {
+        var requestURL = 'https://raw.githubusercontent.com/jsmjsm/virmach-monitor/main/virmach_json.json?token=ALZHSO7BFHGYMHKSBKUQV6K7YYMFW';
+        // var requestURL = 'https://billing.virmach.com/modules/addons/blackfriday/new_plan.json';
+        var request = new XMLHttpRequest();
+        request.open('GET', requestURL);
+        request.responseType = 'json';
+        request.send();
+        request.onload = function() {
+            // handle the response json
+            var vpsData = request.response;
+            insertData(vpsData, 'virt', 'virt');
+            insertData(vpsData, 'cpu', 'cpu');
+            insertData(vpsData, 'ram', 'ram');
+            insertData(vpsData, 'hdd', 'hdd');
+            insertData(vpsData, 'bw', 'bw');
+            insertData(vpsData, 'ips', 'ips');
+            insertData(vpsData, 'location', 'location');
+            insertData(vpsData, 'message', 'message');
+            insertPrice(vpsData);
+            isWinAvailable(vpsData);
+            isBuyOk(vpsData);
+        }
+    }
+
+    function myRefresh() {
+        var timeValue = document.getElementById("cRefreshTime").value;
+        if (timeValue == null) {
+            timeValue = 3;
+        }
+
+        var int_val = parseInt(timeValue) - 1;
+
+        if (int_val < 0) {
+            int_val = 1;
+        }
+        refreshData()
+        console.log('refresh');
+        setTimeout(myRefresh(), 1000); //指定1秒调用一次
+    }
+
+    window.onload = function() {
+        myRefresh();
+    }
+
+    function setRefreshTime() {
+        var value = document.getElementById("inputTime").value;
+        document.getElementById('cRefreshTime').textContent = value;
+    }
     // insertData
     function insertData(jsonObj, dataId, jsonKey) {
         var ramFather = document.getElementById(dataId);
@@ -120,5 +175,16 @@
     }
 </script>
 
+<style>
+    #title {
+        align-content: center;
+        font-family: helvetica;
+    }
+    
+    .vpsContainer ul {
+        width: 300px;
+        background-color: antiquewhite;
+    }
+</style>
 
 </html>
