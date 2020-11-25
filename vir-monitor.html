@@ -5,6 +5,133 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id=title>VirMach 黑五闪购监控</title>
+    <script type="text/javascript">
+        function myUpdate() {
+            // console.log('------------------')
+            var timeValue = 3;
+            try {
+                timeValue = document.getElementById('cRefreshTime').textContent;
+                if (timeValue == null || timeValue == "") {
+                    timeValue = 3;
+                }
+                timeValue = parseInt(timeValue)
+            } catch (e) {
+                timeValue = 3;
+            }
+            timeValue * 1000;
+            //console.log('refresh:' + timeValue);
+            Update();
+            setTimeout(myUpdate, 3000);
+        }
+        // setTimeout('Update()', 1000);
+        var salt = '0';
+
+        // load JSON
+        var requestURL = 'https://raw.githubusercontent.com/jsmjsm/virmach-monitor/main/virmach_json.json';
+        // var requestURL = 'https://billing.virmach.com/modules/addons/blackfriday/new_plan.json';
+        var request = new XMLHttpRequest();
+        request.open('GET', requestURL);
+        request.responseType = 'json';
+        request.send();
+        request.onload = function() {
+            // handle the response json
+            // var vpsData = request.response;
+            var vpsData = request.response;
+            insertData(vpsData, 'virt', 'virt');
+            insertData(vpsData, 'cpu', 'cpu');
+            insertData(vpsData, 'ram', 'ram');
+            insertData(vpsData, 'hdd', 'hdd');
+            insertData(vpsData, 'bw', 'bw');
+            insertData(vpsData, 'ips', 'ips');
+            insertData(vpsData, 'location', 'location');
+            insertData(vpsData, 'message', 'message');
+            insertPrice(vpsData);
+            isWinAvailable(vpsData);
+            salt = vpsData['cpu'] + vpsData['ram'] + vpsData['hdd'] + vpsData['bw'] + vpsData['ips'] + vpsData['message'].length;
+            // isBuyOk(vpsData);
+        }
+
+        function setRefreshTime() {
+            var value = document.getElementById("inputTime").value;
+            document.getElementById('cRefreshTime').textContent = value;
+        }
+        // Update()
+        function Update() {
+            ///var requestURL = 'https://raw.githubusercontent.com/jsmjsm/virmach-monitor/main/virmach_json.json';
+            var requestURL = 'http://localhost:3000'
+            request.open('GET', requestURL);
+            request.responseType = 'json';
+            request.send();
+            request.onload = function() {
+                var vpsData = request.response;
+
+                var newSalt = vpsData['cpu'] + vpsData['ram'] + vpsData['hdd'] + vpsData['bw'] + vpsData['ips'] + vpsData['message'].length;
+
+                if (newSalt != salt) {
+                    console.log('salt:' + salt);
+                    console.log('newSalt:' + newSalt);
+                    console.log('salt has changed, update now.')
+                    salt = newSalt;
+                    insertData(vpsData, 'virt', 'virt');
+                    insertData(vpsData, 'cpu', 'cpu');
+                    insertData(vpsData, 'ram', 'ram');
+                    insertData(vpsData, 'hdd', 'hdd');
+                    insertData(vpsData, 'bw', 'bw');
+                    insertData(vpsData, 'ips', 'ips');
+                    insertData(vpsData, 'location', 'location');
+                    insertData(vpsData, 'message', 'message');
+                    insertPrice(vpsData);
+                    isWinAvailable(vpsData);
+                } else {
+                    //console.log('salt no change .')
+                }
+            }
+        }
+
+        // IsNeedToUpdate
+        function IsNeedToUpdate(jsonObj) {
+            return true;
+        }
+
+        // insertData
+        function insertData(jsonObj, dataId, jsonKey) {
+            var divFather = document.getElementById(dataId);
+            divFather.textContent = jsonObj[jsonKey];
+        }
+
+        function insertPrice(jsonObj) {
+            var divFather = document.getElementById('price');
+            var str = jsonObj['price']
+            var regex = /.*?\d\d.?\d?\d?/;
+            var price = regex.exec(str)
+            divFather.textContent = price + "/yr"
+        }
+
+        function isWinAvailable(jsonObj) {
+            var iwin = jsonObj['windows'];
+            //var iwin = 'TRUE';
+            bwin = document.getElementById('windows');
+            if (iwin == "TRUE" || iwin == "true") {
+                bwin.style.display = "block";
+            } else {
+                bwin.style.display = "none";
+            }
+        }
+
+        function isBuyOk(jsonObj) {
+
+            var jsonEnded = jsonObj['ended'];
+            divBuy = document.getElementById('isBuy');
+            jsonEnded = false;
+            if (jsonEnded == true) {
+                divBuy.style.display = "none";
+            } else {
+                divBuy.style.display = "block";
+            }
+        }
+
+        myUpdate();
+    </script>
 </head>
 
 <body>
@@ -62,125 +189,12 @@
 
 </body>
 
-<script>
-    // load JSON
-    var requestURL = 'https://raw.githubusercontent.com/jsmjsm/virmach-monitor/main/virmach_json.json?token=ALZHSO7BFHGYMHKSBKUQV6K7YYMFW';
-    // var requestURL = 'https://billing.virmach.com/modules/addons/blackfriday/new_plan.json';
-    var request = new XMLHttpRequest();
-    request.open('GET', requestURL);
-    request.responseType = 'json';
-    request.send();
-    request.onload = function() {
-        // handle the response json
-        var vpsData = request.response;
-        insertData(vpsData, 'virt', 'virt');
-        insertData(vpsData, 'cpu', 'cpu');
-        insertData(vpsData, 'ram', 'ram');
-        insertData(vpsData, 'hdd', 'hdd');
-        insertData(vpsData, 'bw', 'bw');
-        insertData(vpsData, 'ips', 'ips');
-        insertData(vpsData, 'location', 'location');
-        insertData(vpsData, 'message', 'message');
-        insertPrice(vpsData);
-        isWinAvailable(vpsData);
-        isBuyOk(vpsData);
-    }
-
-    function refreshData() {
-        var requestURL = 'https://raw.githubusercontent.com/jsmjsm/virmach-monitor/main/virmach_json.json?token=ALZHSO7BFHGYMHKSBKUQV6K7YYMFW';
-        // var requestURL = 'https://billing.virmach.com/modules/addons/blackfriday/new_plan.json';
-        var request = new XMLHttpRequest();
-        request.open('GET', requestURL);
-        request.responseType = 'json';
-        request.send();
-        request.onload = function() {
-            // handle the response json
-            var vpsData = request.response;
-            insertData(vpsData, 'virt', 'virt');
-            insertData(vpsData, 'cpu', 'cpu');
-            insertData(vpsData, 'ram', 'ram');
-            insertData(vpsData, 'hdd', 'hdd');
-            insertData(vpsData, 'bw', 'bw');
-            insertData(vpsData, 'ips', 'ips');
-            insertData(vpsData, 'location', 'location');
-            insertData(vpsData, 'message', 'message');
-            insertPrice(vpsData);
-            isWinAvailable(vpsData);
-            isBuyOk(vpsData);
-        }
-    }
-
-    function myRefresh() {
-        var timeValue = document.getElementById("cRefreshTime").value;
-        if (timeValue == null) {
-            timeValue = 3;
-        }
-
-        var int_val = parseInt(timeValue) - 1;
-
-        if (int_val < 0) {
-            int_val = 1;
-        }
-        refreshData()
-        console.log('refresh');
-        setTimeout(myRefresh(), 1000); //指定1秒调用一次
-    }
-
-    window.onload = function() {
-        myRefresh();
-    }
-
-    function setRefreshTime() {
-        var value = document.getElementById("inputTime").value;
-        document.getElementById('cRefreshTime').textContent = value;
-    }
-    // insertData
-    function insertData(jsonObj, dataId, jsonKey) {
-        var ramFather = document.getElementById(dataId);
-        var td = document.createElement('td');
-        td.textContent = jsonObj[jsonKey];
-        ramFather.appendChild(td);
-    }
-
-    function insertPrice(jsonObj) {
-        var ramFather = document.getElementById('price');
-        var priceString = jsonObj['price'];
-        var td = document.createElement('td');
-        //   td.textContent = jsonObj[jsonKey];
-        ramFather.appendChild(td);
-        td.innerHTML = priceString;
-    }
-
-    function isWinAvailable(jsonObj) {
-        var iwin = jsonObj['windows'];
-        //var iwin = 'TRUE';
-        bwin = document.getElementById('windows');
-        if (iwin == "TRUE") {
-            bwin.style.display = "block";
-        } else {
-            bwin.style.display = "none";
-        }
-    }
-
-    function isBuyOk(jsonObj) {
-
-        var jsonEnded = jsonObj['ended'];
-        divBuy = document.getElementById('isBuy');
-        jsonEnded = false;
-        if (jsonEnded == true) {
-            divBuy.style.display = "none";
-        } else {
-            divBuy.style.display = "block";
-        }
-    }
-</script>
-
 <style>
     #title {
         align-content: center;
         font-family: helvetica;
     }
-    
+
     .vpsContainer ul {
         width: 300px;
         background-color: antiquewhite;
