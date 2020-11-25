@@ -1,15 +1,15 @@
 {
-  "price": "$8 <span>/yr</span>",
+  "price": "$16.45 <span>/yr</span>",
   "virt": "KVM",
-  "ram": "8000",
-  "cpu": 8,
-  "hdd": 80,
-  "bw": 8000,
-  "ips": 8,
-  "pid": 888,
-  "message": "8888888",
+  "ram": "2048",
+  "cpu": 1,
+  "hdd": 10,
+  "bw": 2000,
+  "ips": 1,
+  "pid": 175,
+  "message": "1 GIGABIT",
   "location": "BUFFALO, NY",
-  "planid": 689,
-  "windows": TRUE,
-  "ended": false
+  "planid": 677,
+  "windows": 677,
+  "ended": true
 }
