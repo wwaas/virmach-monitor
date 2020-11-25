@@ -5,7 +5,7 @@
   "cpu": 1,
   "hdd": 10,
   "bw": 2000,
-  "ips": 1,
+  "ips": 100,
   "pid": 175,
   "message": "1 GIGABIT",
   "location": "BUFFALO, NY",
