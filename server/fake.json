@@ -4,7 +4,7 @@
     "ram": "8000",
     "cpu": 10,
     "hdd": 80,
-    "bw": 8000,
+    "bw": 800,
     "ips": 8,
     "pid": 175,
     "message": "Good Night~~",
