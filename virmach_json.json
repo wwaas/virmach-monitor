@@ -5,11 +5,11 @@
   "cpu": 1,
   "hdd": 20,
   "bw": 1000,
-  "ips": 1,
+  "ips": 2,
   "pid": 175,
-  "message": "Good Night",
+  "message": "Time to sleep bro~",
   "location": "BUFFALO, NY",
-  "planid": 677,
-  "windows": 677,
+  "planid": 689,
+  "windows": true,
   "ended": true
 }
