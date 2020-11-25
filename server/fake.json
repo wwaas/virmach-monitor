@@ -2,7 +2,7 @@
     "price": "$16.45 <span>/yr</span>",
     "virt": "KVM",
     "ram": "8000",
-    "cpu": 8,
+    "cpu": 10,
     "hdd": 80,
     "bw": 8000,
     "ips": 8,
