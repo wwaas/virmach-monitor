@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
     "price": "$16.45 <span>/yr</span>",
     "virt": "KVM",
     "ram": "2048",
@@ -13,19 +12,4 @@
     "planid": 677,
     "windows": 677,
     "ended": true
-=======
-  "price": "$16.45 <span>/yr</span>",
-  "virt": "KVM",
-  "ram": "2048",
-  "cpu": 1,
-  "hdd": 10,
-  "bw": 2000,
-  "ips": 1,
-  "pid": 175,
-  "message": "1 GIGABIT",
-  "location": "BUFFALO, NY",
-  "planid": 677,
-  "windows": 677,
-  "ended": true
->>>>>>> 63342fcc386e9bc514f6947193d0b8477a65a22d
 }
