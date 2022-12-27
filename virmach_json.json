@@ -1,15 +1,1 @@
-{
-    "price": "$11.88 <span>/yr</span>",
-    "virt": "KVM",
-    "ram": "2048",
-    "cpu": 1,
-    "hdd": 10,
-    "bw": 2000,
-    "ips": 1,
-    "pid": 175,
-    "message": "1 GIGABIT",
-    "location": "BUFFALO, NY",
-    "planid": 677,
-    "windows": 677,
-    "ended": true
-}
+{"price":"$18.88 <span>\/yr<\/span>","virt":"KVM","ram":"2048","cpu":3,"hdd":85,"bw":8704,"ips":2,"pid":222,"message":"1 GIGABIT","location":"NYC METRO, NJ","windows":"FALSE","planid":285,"ended":true}
